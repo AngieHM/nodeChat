@@ -20,9 +20,15 @@ socket.emit('joinRoom', {username, room})
 
 //get Room and users
 
-socket.on('roomUsers', ({room, users})=>{
+socket.on('roomUsers', ({room, users, messages})=>{
   outputRoomName(room);
   outputusers(users);
+});
+
+socket.on('setup', ({messages, username})=>{
+  messages.forEach(element => {
+    outputMessage({text:element.message, username: element.from, time:element.time})
+  });
 });
 
 //message from server
@@ -37,7 +43,6 @@ socket.on('message', message=>{
 });
 
 socket.on('private', message=>{
-  console.log(message);
 
   outputMessage(message);
 
